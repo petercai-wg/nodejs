@@ -8,6 +8,7 @@ import {
     ValidationPipe,
 
 } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 import { EmployeeService } from './employee.service';
 import { EmployeeDto } from './dto/employee.dto';
@@ -15,7 +16,8 @@ import { Employee } from './employee.entity';
 
 @Controller('employee')
 export class EmployeeController {
-    constructor(private readonly employeeService: EmployeeService) { }
+    constructor(private readonly employeeService: EmployeeService, private readonly eventEmitter: EventEmitter2) { }
+
     @Get()
     findAll() {
         console.log(`EmployeeController... Get findAll`);
@@ -52,6 +54,7 @@ export class EmployeeController {
         employee.managerId = employeeDto.managerId;
 
         const result = await this.employeeService.saveEmployee(employee);
+        this.eventEmitter.emit('employee.created', result.id);
 
         return {
             status: HttpStatus.CREATED,

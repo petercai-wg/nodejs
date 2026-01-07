@@ -12,7 +12,13 @@
         "tsConfigPath": "./tsconfig.build.json",
         "webpack": false,
         "deleteOutDir": true,
-        "assets": [],
+        "assets": [
+            {
+                "include": "views/**/*",
+                "outDir": "dist/",
+                "watchAssets": true
+            }
+        ],
         "watchAssets": false,
         "plugins": []
     }

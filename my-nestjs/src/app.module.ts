@@ -3,9 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
 
+
+import { ScheduleModule } from '@nestjs/schedule';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EmployeeModule } from './employee/employee.module';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
@@ -32,9 +36,14 @@ import { EmployeeModule } from './employee/employee.module';
 
         }),
 
+        ScheduleModule.forRoot(),
+        EventEmitterModule.forRoot(),
+
         CoreModule,
 
-        EmployeeModule
+        EmployeeModule,
+
+        AuthModule
     ]
 })
 export class AppModule { }

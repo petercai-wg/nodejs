@@ -3,11 +3,15 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
 import { LoggerMiddleware } from './middleware/logging.middleware';
 import { PgNotificationService } from './services/pg-notification.service';
+import { TasksService } from './services/task.service';
+import { EmployeeCreatedListener } from './services/employee-created.listener';
 
 @Module({
     providers: [
         { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
         PgNotificationService,
+        TasksService,
+        EmployeeCreatedListener,
     ],
 })
 export class CoreModule implements NestModule {
