@@ -1,4 +1,10 @@
 const mq = require('ibmmq');
+const fs = require('node:fs');
+
+const msgxml = fs.readFileSync('./pacs.xml', 'utf8');
+console.log(msgxml);
+
+
 const MQC = mq.MQC; // Contains MQ configuration constants
 
 // 1. Connection Configurations
@@ -23,6 +29,8 @@ cno.SecurityParms = csp;
 
 console.log("Connecting to IBM MQ...");
 
+
+
 // 4. Connect to the Queue Manager
 mq.Connx(qMgr, cno, function (err, hConn) {
     if (err) {
@@ -45,11 +53,10 @@ mq.Connx(qMgr, cno, function (err, hConn) {
         console.log("Successfully opened queue: " + queueName);
 
         // 6. Put a message into the Queue
-        const msg = "Hello from JavaScript Node.js App!";
         const mqmd = new mq.MQMD(); // Message descriptor
         const pmo = new mq.MQPMO();   // Put message options
 
-        mq.Put(hObj, mqmd, pmo, msg, function (err) {
+        mq.Put(hObj, mqmd, pmo, msgxml, function (err) {
             if (err) {
                 console.error("Failed to put message: " + err.mqrcstr);
             } else {
